@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+#kill me now, With a sleep 2 in between each iteration
+
+pkill -f beyond

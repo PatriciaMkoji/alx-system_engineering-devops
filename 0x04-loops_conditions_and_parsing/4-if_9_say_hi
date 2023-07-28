@@ -5,7 +5,7 @@ while [ $i -le 9 ];
 do
 	if [ $i -eq  9 ];
 	then
-		echo "HI"
+		echo "Hi"
 	fi
 	
 	echo "Best School"

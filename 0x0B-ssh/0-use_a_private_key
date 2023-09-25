@@ -1,13 +1,4 @@
 #!/usr/bin/env bash
 # uses ssh to connect to your server using the private key ~/.ssh/school w
-
-# Sets the SSH private key file
-PRIVATE_KEY=~/.ssh/school
-
-# Set SSH user and server hostname (replace with your own values)
-USER=ubuntu
-HOSTNAME=your_server_ip_or_hostname
-
-# ssh command with single-character flags
-ssh -i "$PRIVATE_KEY" "$USER@$HOSTNAME"
+ssh -i ~/.ssh/school ubuntu@8.8.8.8
 

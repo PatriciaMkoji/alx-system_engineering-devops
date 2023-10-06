@@ -4,9 +4,9 @@
 display_subdomain_info() {
     subdomain=$1
     domain=$2
-    recd_type=$(dig ${subdomain}.${domain} | awk '/ANSWER SECTION/ {getline; print $4}')
+    record_type=$(dig ${subdomain}.${domain} | awk '/ANSWER SECTION/ {getline; print $4}')
     end_result=$(dig ${subdomain}.${domain} | awk '/ANSWER SECTION/ {getline; print $5}')
-    echo "The subdomain ${subdomain} is a ${recd_type} recd and points to ${end_result}"
+    echo "The subdomain ${subdomain} is a ${record_type} record and points to ${end_result}"
 }
 
 # main 

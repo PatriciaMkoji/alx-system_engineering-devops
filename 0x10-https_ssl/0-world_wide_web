@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-
 # display subdomain information
 display_subdomain_info() {
     subdomain=$1

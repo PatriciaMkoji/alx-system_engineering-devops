@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+# automate server 2 login
+
+# ssh-agent set up
+eval $("ssh-agent")
+
+# path
+ssh-add /home/patricia/.ssh/id_rsa
+
+# activate web sever
+ssh ubuntu@54.84.84.66

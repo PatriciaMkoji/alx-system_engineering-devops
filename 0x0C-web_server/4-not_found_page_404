@@ -1,26 +1,26 @@
 #!/usr/bin/env bash
-# to configure your Nginx server to have a custom 404 page
+# configure your Nginx server to have a custom 404 page
 
-# update then proceed to installation
+# update and install
 sudo apt-get update
 sudo apt-get install -y nginx
 
-# create index.html pg
+# createa index.html page
 echo "Hello World!" | sudo tee /var/www/html/index.html
 
-# move permanently (redirection 301)
-new_string="server_name _;\n\trewrite ^\/redirect_me https:\/\/http://patriciamkojiimpactmytime.tech permanent;"
-
+# permanent redirection-301
+new_string="server_name _;\n\trewrite ^\/redirect_me https:\/\/github.com\/PatriciaMkoji permanent;"
 sudo sed -i "s/server_name _;/$new_string/" /etc/nginx/sites-enabled/default
 
-# error 404 output
-echo "Ceci n'est pas une page" | sudo tee /var/www/html/404.html
-new_string="listen 80 default_server;\n\terror_page 404 \/404.html;\n\tlocation = \/404.html {\n\t\troot \/var\/www\/html;\n\t\tinternal;\n\t}"
+# create 404 custom error page and an if condition to avoid duplicates
+if ! grep -q "error_page 404 /404.html;" /etc/nginx/sites-enabled/default; then
+   echo "Ceci n'est pas une page" | sudo tee /var/www/html/404.html
+   new_string="listen 80 default_server;\n\terror_page 404 \/404.html;\n\tlocation = \/404.html {\n\t\troot \/var\/www\/html;\n\t\tinternal;\n\t}"
+   sudo sed -i "/listen 80 default_server;/a $new_string" /etc/nginx/sites-enabled/default
+fi
 
-sudo sed -i "s/listen 80 default_server;/$new_string/" /etc/nginx/sites-enabled/default
-
-# check syntax error
+# Testing configurations for syntax errors
 sudo nginx -t
 
-# restarting nginx
-sudo service nginx restart
+# restart nginx
+sudo service nginx restarti

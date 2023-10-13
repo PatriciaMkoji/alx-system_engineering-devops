@@ -1,4 +1,4 @@
-# update and install
+# update and installl
 sudo apt-get update
 sudo apt-get install -y nginx
 

@@ -23,4 +23,4 @@ fi
 sudo nginx -t
 
 # restart nginx
-sudo service nginx restarti
+sudo service nginx restart

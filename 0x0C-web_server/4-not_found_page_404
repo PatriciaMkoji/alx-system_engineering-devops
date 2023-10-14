@@ -1,33 +1,24 @@
 #!/usr/bin/env bash
-# configure your Nginx server to have a custom 404 page
+#redirection of web page
 
-# update and install Nginx
+# update and installl
 sudo apt-get update
 sudo apt-get install -y nginx
 
-# create an index.html page
+# createa index.html page
 echo "Hello World!" | sudo tee /var/www/html/index.html
 
-# Permanent redirection (301)
-new_string="server_name _;\n\tlocation /redirect_me {\n\t\treturn 301 https:\/\/github.com/PatriciaMkoji;\n\t}"
+# permanent redirection-301
+new_string="server_name _;\n\trewrite ^\/redirect_me https:\/\/github.com\/PatriciaMkoji permanent;"
 sudo sed -i "s/server_name _;/$new_string/" /etc/nginx/sites-enabled/default
 
-# Create a custom 404 error page and an if condition to avoid duplicates
-if ! grep -q "error_page 404 /404.html;" /etc/nginx/sites-enabled/default; then
-	    echo "Ceci n'est pas une page" | sudo tee /var/www/html/404.html
-	        new_string="listen 80 default_server;\n\terror_page 404 /404.html;\n\tlocation = /404.html {\n\t\troot /var/www/html;\n\t\tinternal;\n\t}"
-		    sudo sed -i "/listen 80 default_server;/a $new_string" /etc/nginx/sites-enabled/default
-fi
-
-# Configure Nginx to return a 404 status code for the custom error page
-if ! grep -q "return 404;" /etc/nginx/sites-enabled/default; then
-	    new_string="\terror_page 404 /404.html;\n\tlocation = /404.html {\n\t\troot /var/www/html;\n\t\tinternal;\n\t\treturn 404;\n\t}"
-	        sudo sed -i "/error_page 404 \/404.html;/a $new_string" /etc/nginx/sites-enabled/default
-fi
+# create error an error page and redirect for 404 error
+echo "Ceci n'est pas une page" | sudo tee /var/www/html/404.html
+string_for_replacement="listen 80 default_server;\n\terror_page 404 \/404.html;\n\tlocation = \/404.html {\n\t\troot \/var\/www\/html;\n\t\tinternal;\n\t}"
+sudo sed -i "s/listen 80 default_server;/$string_for_replacement/" /etc/nginx/sites-enabled/default
 
 # Testing configurations for syntax errors
 sudo nginx -t
 
-# Restart Nginx
+# restart nginx
 sudo service nginx restart
-

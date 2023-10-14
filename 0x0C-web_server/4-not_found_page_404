@@ -9,14 +9,20 @@ sudo apt-get install -y nginx
 echo "Hello World!" | sudo tee /var/www/html/index.html
 
 # Permanent redirection (301)
-new_string="server_name _;\n\tlocation /redirect_me {\n\t\treturn 301 https:\/\/github.com\/PatriciaMkoji;\n\t}"
+new_string="server_name _;\n\tlocation /redirect_me {\n\t\treturn 301 https:\/\/github.com/PatriciaMkoji;\n\t}"
 sudo sed -i "s/server_name _;/$new_string/" /etc/nginx/sites-enabled/default
 
-# Create 404 custom error page and an if condition to avoid duplicates
+# Create a custom 404 error page and an if condition to avoid duplicates
 if ! grep -q "error_page 404 /404.html;" /etc/nginx/sites-enabled/default; then
 	    echo "Ceci n'est pas une page" | sudo tee /var/www/html/404.html
 	        new_string="listen 80 default_server;\n\terror_page 404 /404.html;\n\tlocation = /404.html {\n\t\troot /var/www/html;\n\t\tinternal;\n\t}"
 		    sudo sed -i "/listen 80 default_server;/a $new_string" /etc/nginx/sites-enabled/default
+fi
+
+# Configure Nginx to return a 404 status code for the custom error page
+if ! grep -q "return 404;" /etc/nginx/sites-enabled/default; then
+	    new_string="\terror_page 404 /404.html;\n\tlocation = /404.html {\n\t\troot /var/www/html;\n\t\tinternal;\n\t\treturn 404;\n\t}"
+	        sudo sed -i "/error_page 404 \/404.html;/a $new_string" /etc/nginx/sites-enabled/default
 fi
 
 # Testing configurations for syntax errors
@@ -24,3 +30,4 @@ sudo nginx -t
 
 # Restart Nginx
 sudo service nginx restart
+

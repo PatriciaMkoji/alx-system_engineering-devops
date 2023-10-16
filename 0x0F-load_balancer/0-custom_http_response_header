@@ -5,6 +5,14 @@
 sudo apt-get update
 sudo apt-get install -y nginx
 
+# configure firewall to allow request through port 80
+sudo ufw allow 'Nginx HTTP'
+
+sudo mkdir -p /var/www/html
+
+# change permissions to allow us to easily create files in this directory
+sudo chmod -R 755 /var/www
+
 # createa index.html page
 echo "Hello World!" | sudo tee /var/www/html/index.html
 
@@ -18,7 +26,7 @@ string_for_replacement="listen 80 default_server;\n\terror_page 404 \/404.html;\
 sudo sed -i "s/listen 80 default_server;/$string_for_replacement/" /etc/nginx/sites-enabled/default
 
 # custom HTTP Response Headers
-sudo sed -i "/location \/ {/a add_header X-Served-By \$(hostname);" /etc/nginx/sites-enabled/default
+sudo sed -i "/server_name /a add_header X-Served-By \"$HOSTNAME\";" /etc/nginx/sites-enabled/default
 
 # Testing configurations for syntax errors
 sudo nginx -t

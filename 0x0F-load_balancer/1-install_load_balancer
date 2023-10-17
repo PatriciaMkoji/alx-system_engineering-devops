@@ -14,7 +14,7 @@ server_config=\
 frontend  patriciamkoji_frontend
         bind *:80
 	mode http
-	default_backend besthor_backend
+	default_backend patriciamkoji_backend
 backend patriciamkoji_backend
 	balance roundrobin
 	server 274462-web-01 100.26.177.98 check

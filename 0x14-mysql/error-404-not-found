@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+#redirection of web page
+
+# update and installl
+sudo apt-get update
+sudo apt-get install -y nginx
+
+# createa index.html page
+echo "Hello World!" | sudo tee /var/www/html/index.html
+
+# permanent redirection-301
+new_string="server_name _;\n\trewrite ^\/redirect_me https:\/\/github.com\/PatriciaMkoji permanent;"
+sudo sed -i "s/server_name _;/$new_string/" /etc/nginx/sites-enabled/default
+
+# create error an error page and redirect for 404 error
+echo "Ceci n'est pas une page" | sudo tee /var/www/html/404.html
+string_for_replacement="listen 80 default_server;\n\terror_page 404 \/404.html;\n\tlocation = \/404.html {\n\t\troot \/var\/www\/html;\n\t\tinternal;\n\t}"
+sudo sed -i "s/listen 80 default_server;/$string_for_replacement/" /etc/nginx/sites-enabled/default
+
+# Testing configurations for syntax errors
+sudo nginx -t
+
+# restart nginx
+sudo service nginx restart

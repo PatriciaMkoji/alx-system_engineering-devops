@@ -1,5 +1,7 @@
 #!/usr/bin/python3
-""" Python script that, using this REST API, for a given employee ID, returns info """
+"""
+Python script that, using this REST API, given employee ID, returns info
+"""
 
 import requests
 import sys

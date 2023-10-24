@@ -21,21 +21,13 @@ if __name__ == '__main__':
     done = 0
     done_tasks = []
 
-    print("Employee Name: OK" if len(employeeName) == 18 else "Employee Name: Incorrect")
-    print("To Do Count: OK" if len(str(len(tasks))) == 16 else "To Do Count: Incorrect")
-    print("First line formatting: OK" if f"Employee {employeeName} is done with tasks({done}/{len(tasks})" == response.text.strip() else "First line formatting: Incorrect")
-
-    for i, task in enumerate(tasks, start=1):
+    for task in tasks:
         if task.get('completed'):
             done_tasks.append(task)
             done += 1
 
-        task_key = f"Task {i} in output"
-        task_value = "OK" if task.get('title') in response.text else "not in output"
-        print(f"{task_key}: {task_value}")
+    print("Employee {} is done with tasks({}/{}):"
+          .format(employeeName, done, len(tasks)))
 
-    for i, task in enumerate(done_tasks, start=1):
-        task_key = f"Task {i} Formatting"
-        task_value = "OK" if task.get('title') in response.text else "not in output"
-        print(f"{task_key}: {task_value}")
-
+    for task in done_tasks:
+        print("\t {}".format(task.get('title')))

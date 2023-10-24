@@ -1,33 +1,20 @@
 #!/usr/bin/python3
 """
-Python script that, using this REST API, given employee ID, returns info
-"""
-
-import requests
+ Python script that, using this REST API, given employee ID, returns inf
+ """
+import requests as r
 import sys
 
-
 if __name__ == '__main__':
-    employeeId = sys.argv[1]
-    baseUrl = "https://jsonplaceholder.typicode.com/users"
-    url = baseUrl + "/" + employeeId
+    url = 'https://jsonplaceholder.typicode.com/'
+    usr_id = r.get(url + 'users/{}'.format(sys.argv[1])).json()
+    to_do = r.get(url + 'todos', params={'userId': sys.argv[1]}).json()
+    
+    done_tasks = [title.get("title") for title in to_do if
+                 title.get('completed') is True]
 
-    response = requests.get(url)
-    employeeName = response.json().get('name')
-
-    todoUrl = url + "/todos"
-    response = requests.get(todoUrl)
-    tasks = response.json()
-    done = 0
-    done_tasks = []
-
-    for task in tasks:
-        if task.get('completed'):
-            done_tasks.append(task)
-            done += 1
-
-    print("Employee {} is done with tasks({}/{}):"
-          .format(employeeName, done, len(tasks)))
-
-    for task in done_tasks:
-        print("\t {}".format(task.get('title')))
+    print("Employee {} is done with tasks({}/{}):".format(usr_id.get("name"),
+                                                          len(done_tasks),
+                                                          len(to_do)))
+    
+    [print("\t {}".format(title)) for title in done_tasks]

@@ -17,8 +17,8 @@ frontend  patriciamkoji_frontend
 	default_backend patriciamkoji_backend
 backend patriciamkoji_backend
 	balance roundrobin
-	server 274462-web-01 100.26.177.98 check
-	server 274462-web-02 54.84.84.66 check
+	server 274462-web-01 100.26.246.40 check
+	server 274462-web-02 54.145.155.140 check
 						"
 echo "$server_config" | sudo tee -a /etc/haproxy/haproxy.cfg
 

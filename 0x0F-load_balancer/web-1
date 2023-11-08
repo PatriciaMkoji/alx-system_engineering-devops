@@ -5,7 +5,7 @@
 eval $("ssh-agent")
 
 # path to private key
-ssh-add /home/patricia/.ssh/id_rsa
+ssh-add /root/.ssh/id_rsa
 
 # activate web sever
-ssh ubuntu@100.26.177.98
+ssh ubuntu@100.26.246.40

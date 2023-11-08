@@ -5,7 +5,7 @@
 eval $("ssh-agent")
 
 # path
-ssh-add /home/patricia/.ssh/id_rsa
+ssh-add /root/.ssh/id_rsa
 
 # activate web sever
-ssh ubuntu@54.84.84.66
+ssh ubuntu@54.145.155.140
